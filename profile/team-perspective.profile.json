@@ -1,0 +1,49 @@
+{
+  "//": "==================================================================",
+  "//1": "THE PROFILE — this single file binds skills + MCP + system prompt +",
+  "//2": "settings into one activatable 'perspective', ALL sourced from GitHub.",
+  "//3": "No Snowflake stage required. Fork this repo, change every <YOUR-GH-...>",
+  "//4": "placeholder to your fork (owner/repo), then either copy this file to",
+  "//5": "~/.snowflake/cortex/profiles/ or run /setup-my-perspective.",
+  "//6": "Source ref schema verified from the CoCo app: a repo entry is",
+  "//7": "{ \"source\": \"owner/repo/subpath\", \"ref\": \"main\" }. See docs/PROFILE_SCHEMA.md.",
+  "//8": "==================================================================",
+
+  "name": "Team Perspective",
+  "description": "Starter team perspective: friendly persona, starter skills, and MCP — all from GitHub. Fork and customize.",
+  "ownerTeam": "REPLACE_WITH_YOUR_TEAM",
+  "version": "1.0",
+
+  "skillRepos": [
+    {
+      "source": "Jeremy-Demlow/basic-example-of-profiles/skills",
+      "ref": "main"
+    }
+  ],
+
+  "mcpServers": {
+    "source": "Jeremy-Demlow/basic-example-of-profiles/mcp.json",
+    "ref": "main"
+  },
+
+  "commandRepos": [],
+
+  "systemPromptRepo": {
+    "source": "Jeremy-Demlow/basic-example-of-profiles/AGENTS.md",
+    "ref": "main"
+  },
+
+  "plugins": [],
+  "subagents": [],
+  "hooks": {},
+
+  "envVars": {},
+
+  "settingsOverrides": {
+    "theme": "dark",
+    "sqlConnectionName": "REPLACE_WITH_YOUR_CONNECTION",
+    "cortexAgentConnectionName": "REPLACE_WITH_YOUR_CONNECTION"
+  },
+
+  "localModified": false
+}

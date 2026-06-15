@@ -1,13 +1,45 @@
 {
-  "_comment": "Templates for MCP servers the setup-my-perspective skill can enable. Secrets are NEVER hardcoded; they use ${input:...} prompts so the value is entered once and stored encrypted, not in this file. The skill copies only the servers the user selects into ~/.snowflake/cortex/mcp.json.",
+  "//": "================================================================",
+  "//1": "MCP SERVERS (placeholders). The Team Profile points its mcpServers",
+  "//2": "field at THIS file on GitHub, so activating the profile loads these.",
+  "//3": "Replace the <REPLACE...> values with your team's real servers, or",
+  "//4": "delete servers you don't use. Secrets use ${input:...} so they are",
+  "//5": "prompted once and stored encrypted by the OS — never committed here.",
+  "//6": "These are EXAMPLES and will not connect until you fill them in.",
+  "//7": "================================================================",
+
   "mcpServers": {
-    "glean_default": {
-      "_label": "Glean knowledge search",
-      "_why": "Search internal company knowledge and documents from chat.",
+    "team_knowledge_search": {
+      "//label": "Knowledge search (e.g. Glean) — remote MCP over npx mcp-remote",
+      "//why": "Lets the assistant search your internal docs/wiki from chat.",
       "type": "stdio",
       "command": "npx",
-      "args": ["-y", "mcp-remote", "https://YOUR-COMPANY.glean.com/mcp/default"]
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://REPLACE-WITH-YOUR-COMPANY.glean.com/mcp/default"
+      ]
+    },
+
+    "example_api_server": {
+      "//label": "Generic API server needing a secret key",
+      "//why": "Template for any MCP server that needs an API key. Shows the",
+      "//why2": "${input:...} pattern — the value is prompted on first use.",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "REPLACE-WITH-YOUR-MCP-PACKAGE"],
+      "env": {
+        "API_KEY": "${input:example-api-key}"
+      }
     }
   },
-  "inputs": []
+
+  "inputs": [
+    {
+      "id": "example-api-key",
+      "type": "promptString",
+      "description": "API key for example_api_server (entered once, stored encrypted)",
+      "password": true
+    }
+  ]
 }

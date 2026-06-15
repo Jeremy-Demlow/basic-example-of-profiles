@@ -1,0 +1,23 @@
+{
+  "//": "================================================================",
+  "//1": "OPTIONAL hooks EXAMPLE — NOT auto-loaded (it lives under examples/,",
+  "//2": "not at the plugin root). To enable, copy this to a .hooks.json at the",
+  "//3": "repo root (or into the plugin manifest's hooks field) and customize.",
+  "//4": "Hooks run shell commands on events, so review them before enabling.",
+  "//5": "Valid events: SessionStart, UserPromptSubmit, PreToolUse, PostToolUse,",
+  "//6": "Stop, SubagentStop, Notification.",
+  "//7": "================================================================",
+
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'Tip: type /getting-started for a quick tour.'"
+          }
+        ]
+      }
+    ]
+  }
+}

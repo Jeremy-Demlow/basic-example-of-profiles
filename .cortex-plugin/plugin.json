@@ -1,7 +1,7 @@
 {
   "name": "basic-example-of-profiles",
-  "version": "1.0.0",
-  "description": "A starter 'perspective' for non-technical partners: one /setup-my-perspective skill that configures a Cortex Code profile, MCP servers, system prompt, settings, and permissions in a few clicks.",
+  "version": "1.1.0",
+  "description": "A complete, fork-and-go Cortex Code Desktop perspective: a GitHub-sourced profile that binds starter skills, a subagent, MCP servers, and a friendly system prompt for onboarding non-technical partners.",
   "skills": ["skills"],
   "hooks": {},
   "mcpServers": {}

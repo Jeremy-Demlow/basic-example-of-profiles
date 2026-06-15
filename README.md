@@ -1,74 +1,74 @@
 # Basic Example of Profiles
 
-A starter **"perspective"** for Cortex Code Desktop, built for **non-technical partners** who
-have just installed the app and want to be set up in a few clicks — no terminal, no coding.
+A complete, **fork-and-go** example of a Cortex Code Desktop **perspective** — built so a team
+can clone it, change a few placeholders, and onboard non-technical partners in minutes.
 
-It bundles everything a newcomer needs into one place:
+**Everything lives in GitHub. No Snowflake stage required.** A single profile file references
+the skills, MCP servers, and system prompt in this repo, so activating it wires up the whole
+experience.
 
-- A friendly **system prompt / persona** (`AGENTS.md`) that makes the assistant talk in plain
-  language and always ask before acting.
-- **Starter skills** — `/setup-my-perspective` (one-step setup) and `/getting-started` (a tour).
-- **MCP server** templates (e.g. knowledge search) that wire up with secret prompts, never
-  hardcoded keys.
-- Safe **settings** and a recommended **permissions posture**.
-- A switchable **profile** so the whole setup is reversible.
+## Plugin vs Profile — what's what
 
----
+This repo is **both**, because they do different jobs:
 
-## For non-technical partners — 3 steps
+- **Plugin** = the *package* of capabilities (the `skills/`, `agents/`, `mcp.json` here). It's
+  how you distribute reusable content. Defined by `.cortex-plugin/plugin.json`.
+- **Profile** = the *active identity* a user switches on — which skills, MCP, system prompt, and
+  settings are live. Defined by `profile/team-perspective.profile.json`.
 
-1. **Add this from GitHub.** In Cortex Code Desktop, open **Agent Settings** (left activity
-   bar) → **Skills** → click **+** next to *GitHub Skills* → paste:
+The profile is what a partner "loads." It *references* this repo's content from GitHub. See
+[`docs/PROFILE_SCHEMA.md`](docs/PROFILE_SCHEMA.md) for the exact schema.
 
-   ```
-   Jeremy-Demlow/basic-example-of-profiles
-   ```
+## What's in here
 
-   *(Or use **Plugins → Add from GitHub** with the same path to get everything as one bundle.)*
+```
+basic-example-of-profiles/
+  profile/team-perspective.profile.json   # THE profile — binds everything, all GitHub-sourced
+  AGENTS.md                               # system prompt / persona (referenced by the profile)
+  mcp.json                                # MCP servers (placeholders, ${input:} secrets)
+  skills/
+    setup-my-perspective/SKILL.md         # installs + personalizes the profile for a newcomer
+    getting-started/SKILL.md              # friendly, no-jargon tour
+  agents/data-helper.md                   # example subagent
+  .cortex-plugin/plugin.json              # makes the repo installable as one plugin bundle
+  examples/hooks.example.json             # optional event-hook example (not auto-loaded)
+  docs/PROFILE_SCHEMA.md                  # the GitHub profile schema (verified, not in public docs)
+  docs/CUSTOMIZE.md                       # fork-and-fill guide for your team
+```
 
-2. **Run the setup.** Open a chat and type:
+## Two ways to load it
 
-   ```
-   /setup-my-perspective
-   ```
+**A. One-click profile (cleanest).** Copy `profile/team-perspective.profile.json` into
+`~/.snowflake/cortex/profiles/`, then **Agent Settings → Profiles → Activate**. Activation pulls
+skills + MCP + persona straight from GitHub.
 
-   Answer a couple of simple questions (your name, your Snowflake connection, which tools to
-   turn on). The assistant does the rest and asks before every change.
+**B. Guided setup skill (friendliest for beginners).** In Cortex Code Desktop:
 
-3. **Activate your profile.** When it finishes, go to **Agent Settings → Profiles**, select
-   **"&lt;Your Name&gt;'s Perspective"**, click **Activate**, and start a new chat.
+1. **Agent Settings → Skills → +** (GitHub Skills) → paste `Jeremy-Demlow/basic-example-of-profiles`
+   *(or use Plugins → Add from GitHub to get the whole bundle).*
+2. Open a chat and type **`/setup-my-perspective`**.
+3. Answer a couple of simple questions; it installs and personalizes the profile, then walks you
+   through activating it.
 
-Then try: **"What can I do here?"** for a guided tour.
+Then try **"What can I do here?"** for a guided tour.
 
-> Everything is reversible. To undo, switch back to the default profile or delete your profile
-> file under `~/.snowflake/cortex/profiles/`.
+## Make it yours
 
----
+This is a template. Fork it and replace the placeholders — full instructions in
+[`docs/CUSTOMIZE.md`](docs/CUSTOMIZE.md). The short version: point every `source` in the profile
+at your fork, fill in `mcp.json` with your real servers, and rewrite `AGENTS.md` in your team's
+voice.
 
-## What gets installed where
+## Safe-by-default posture
 
-| Piece | Source in this repo | Lands at |
-|---|---|---|
-| Persona / system prompt | `AGENTS.md` | referenced by your profile |
-| Starter skills | `skills/` | your Skills list |
-| MCP servers (selected) | `mcp.json` | `~/.snowflake/cortex/mcp.json` |
-| Settings (theme, connection) | `settings.snippet.json` | `~/.snowflake/cortex/settings.json` |
-| Permissions posture | `permissions.snippet.json` | *(verified, not written)* |
-| Switchable profile | `profile/perspective.profile.json` | `~/.snowflake/cortex/profiles/` |
+This example assumes a new, non-technical user, so it relies on the default **ask-before-acting**
+posture (Default Approvals): the assistant prompts before each tool call, edit, or SQL run. For
+unfamiliar tasks, use **Plan Mode** (read-only — shows the plan before anything happens). Don't
+enable Bypass Approvals for newcomers.
 
-## Customizing for your team
+## Security notes
 
-Fork this repo and edit:
-- `AGENTS.md` — change the persona/voice for your audience.
-- `mcp.json` — add your team's MCP servers (replace `YOUR-COMPANY.glean.com`, add others).
-- `settings.snippet.json` — set defaults.
-- `skills/` — add your own starter skills.
-
-Point your partners at your fork instead of this repo. Nothing here contains secrets, so it is
-safe to keep public.
-
-## Notes
-
-- Plugins and skills are **not** cryptographically signed. Review the manifest and skills before
-  installing, as you would any code from an author you're choosing to trust.
-- MCP secrets use `${input:...}` prompts and are stored encrypted by the OS, never in this repo.
+- Plugins and profiles are **not** cryptographically signed. Review the manifest, skills, MCP
+  servers, and hooks before installing — same as running any code from an author you trust.
+- The `mcp.json` servers are **placeholders** and won't connect until you fill in real values.
+  Secrets use `${input:...}` prompts and are stored encrypted by the OS, never committed here.

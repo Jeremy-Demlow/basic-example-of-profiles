@@ -1,129 +1,89 @@
 ---
 name: setup-my-perspective
 description: >-
-  One-step onboarding for a brand-new Cortex Code Desktop user. Sets up a complete
-  personalized "perspective": creates a switchable profile, wires up MCP servers,
-  installs a system prompt (persona), applies safe settings + permissions, and
-  registers starter skills — all conversationally, with no terminal required.
+  One-step onboarding for a new Cortex Code Desktop user. Installs and personalizes
+  a GitHub-sourced "perspective" profile (skills + MCP + system prompt + settings),
+  then guides activation. No terminal, no stage, everything from GitHub.
   Triggers: setup my perspective, set me up, onboard me, get me started,
   configure my profile, build my perspective, first time setup, new user setup.
 ---
 
 # Setup My Perspective
 
-You are onboarding a **non-technical partner** who has just installed Cortex Code Desktop
-for the first time. They may have used Claude / Cowork but never VSCode/Cursor. Be warm,
-plain-spoken, and avoid jargon. Explain *why* before each action. Never assume technical
-knowledge. Do everything for them — they should only have to answer a few questions and
-click "Approve".
+You are onboarding a **non-technical partner** on Cortex Code Desktop. They may know
+Claude / Cowork but never used VSCode. Be warm, plain-spoken, jargon-free. Do the work
+for them; they only answer a few questions and click Approve.
+
+The deliverable is a **profile** — a single JSON file under
+`~/.snowflake/cortex/profiles/` that, when activated, pulls skills, MCP servers, and the
+system prompt directly from a GitHub repo. You install + personalize that profile; the
+app does the rest on activation.
 
 ## Golden rules
 
-1. **Always back up before you write.** Copy any file you modify to `<file>.bak.<timestamp>`
-   first, and tell the user where the backup is.
-2. **Merge, never clobber.** When editing `mcp.json`, `settings.json`, or `permissions.json`,
-   read the existing content and merge — do not overwrite keys the user already has.
-3. **Confirm before each write.** Show the user what you're about to add in plain language
-   and wait for a yes.
-4. **Never commit or print secrets.** MCP secrets use `${input:...}` prompts; do not hardcode.
-5. **Everything is reversible.** Everything you create is captured in one profile JSON the
-   user can switch away from or delete.
+1. **Back up before writing.** If a profile file already exists, copy it to
+   `<file>.bak.<timestamp>` first and say where.
+2. **Confirm before each write**, in plain language.
+3. **Never commit or print secrets.** MCP secrets use `${input:...}` and are prompted later.
+4. **Reversible.** Switching profiles or deleting the file fully undoes everything.
 
-## Where things live (CoCo Desktop config)
+## Where things live
 
 - Profiles: `~/.snowflake/cortex/profiles/<Name>.json`
-- MCP servers: `~/.snowflake/cortex/mcp.json`  (schema: `{ "mcpServers": { ... }, "inputs": [...] }`)
-- Settings: `~/.snowflake/cortex/settings.json`
-- Permissions: `~/.snowflake/cortex/permissions.json`
-- This repo (once installed) is cloned under `~/.snowflake/cortex/plugins/` (plugin install)
-  or `~/.snowflake/cortex/remote_cache/` (skill-from-GitHub install). Locate `AGENTS.md`
-  by searching both; if not found, fetch it from the repo's raw GitHub URL.
+- This repo's profile template: `profile/team-perspective.profile.json`
+- Once the repo is installed, it's cloned under `~/.snowflake/cortex/plugins/`
+  (plugin install) or `~/.snowflake/cortex/remote_cache/` (skill-from-GitHub install).
 
----
+## Step 1 — Find the source repo
 
-## Step 1 — Welcome + collect a few basics
+Ask the user (question tool, one short batch):
 
-Greet the user and ask (use the question tool, keep it to one short batch):
+- **Which repo is their perspective in?** Default to this example,
+  `Jeremy-Demlow/basic-example-of-profiles`. If their team forked it, get their
+  `owner/repo` (and branch if not `main`). This is what every `source` field will point at.
+- **Their name** — for the profile name + greeting.
+- **Snowflake connection name** — their default connection. If unknown, run
+  `snow connection list` and let them pick; if none, that's fine, skip connection defaults.
 
-- **Your name** — used to personalize the profile and greetings.
-- **Snowflake connection name** — the connection they want as default. If they don't know,
-  run `snow connection list` for them and let them pick; if there are none, tell them that's
-  fine and skip connection defaults.
-- **Which MCP servers to enable** — offer the friendly options from this repo's `mcp.json`
-  (e.g. *Snowflake*, *Glean knowledge search*). Multi-select. "None for now" is valid.
+## Step 2 — Load the profile template
 
-## Step 2 — Apply settings
+Locate `profile/team-perspective.profile.json` from the installed repo (search
+`plugins/` and `remote_cache/`). If you can't find it locally, fetch it from the repo's
+raw GitHub URL for the chosen `owner/repo@ref`.
 
-Read `~/.snowflake/cortex/settings.json` (create `{}` if missing). Back it up. Merge in the
-values from this repo's `settings.snippet.json` (theme, default approvals, and the connection
-name they chose). Show the merged result and confirm before writing.
+## Step 3 — Personalize it
 
-## Step 3 — Confirm a safe permissions posture (no file write)
+Produce a personalized copy:
 
-Do **not** write to `~/.snowflake/cortex/permissions.json` — it is a runtime grant cache, not a
-policy file. Instead, read `permissions.snippet.json` for the recommended posture and **verify +
-explain** it to the user in plain terms:
-"You're in *ask-before-acting* mode (Default Approvals), so nothing runs without your OK. For
-anything unfamiliar, use **Plan Mode** — it just shows the plan without doing anything."
-Tell them how to confirm/switch the mode from the chat input, and advise against Bypass Approvals
-for now. No file is changed in this step.
+- `name` → `"<Name>'s Perspective"`
+- `ownerTeam` → their team (or leave blank)
+- Replace every `source` value's `owner/repo` segment with the repo from Step 1, keeping
+  the subpath (`/skills`, `/mcp.json`, `AGENTS.md`) and `ref`. If they're using the default
+  repo unchanged, leave the sources as-is.
+- `settingsOverrides.sqlConnectionName` / `cortexAgentConnectionName` → their connection
+  (remove these keys if they have no connection).
+- Strip the `//*` comment keys.
 
-## Step 4 — Wire up MCP servers (only the ones they picked)
+Show the final JSON and confirm.
 
-Read `~/.snowflake/cortex/mcp.json` (create the skeleton if missing). Back it up. For each
-server the user selected in Step 1, copy its entry from this repo's `mcp.json` into the user's
-`mcpServers` object, and copy any matching `inputs` entries. **Do not duplicate** a server that
-already exists. Explain that secrets will be prompted on first use, never stored in plain text.
-Confirm, then write.
+## Step 4 — Install the profile
 
-## Step 5 — Install the system prompt (persona)
+Write it to `~/.snowflake/cortex/profiles/<Name>'s Perspective.json`. Back up first if a
+file with that name exists.
 
-Locate this repo's `AGENTS.md` (see "Where things live"). This is the persona that makes the
-assistant talk like a friendly guide for non-technical partners. You will reference it from the
-profile in Step 6 via `systemPromptRepo` (local file path is fine). Tell the user what the
-persona does in one sentence.
+## Step 5 — Activate + verify (do this WITH them, in plain steps)
 
-## Step 6 — Create the switchable profile
+1. Open **Agent Settings** (left activity bar) → **Profiles**.
+2. Select **"<Name>'s Perspective"** → click **Activate**. On activation the app clones the
+   skills, MCP config, and system prompt from GitHub automatically.
+3. Start a **new chat** so the persona and MCP load.
 
-Write `~/.snowflake/cortex/profiles/<Name>'s Perspective.json` using this shape (fill in real
-values from the steps above; omit empty blocks):
+Then tell them:
+- The MCP servers in the repo's `mcp.json` are **placeholders** — they'll only connect once
+  someone fills in real values (their team's fork). That's expected; nothing breaks.
+- Try **"What can I do here?"** to get the guided tour from `getting-started`.
 
-```json
-{
-  "name": "<Name>'s Perspective",
-  "description": "Starter perspective created by setup-my-perspective for <Name>",
-  "ownerTeam": "",
-  "version": "1.0",
-  "skillRepos": [],
-  "mcpServers": {},
-  "commandRepos": [],
-  "systemPromptRepo": null,
-  "plugins": [],
-  "subagents": [],
-  "hooks": {},
-  "envVars": {},
-  "settingsOverrides": {},
-  "localModified": true
-}
-```
+## Step 6 — Wrap up
 
-- Put the MCP servers they enabled under `mcpServers` (inline), the chosen settings under
-  `settingsOverrides`, and point `systemPromptRepo` at the located `AGENTS.md` path.
-- Because they installed this repo as a plugin/skill, the starter skills are already available;
-  you do not need to re-register them. If they installed only this one skill from GitHub, tell
-  them the other starter skills come along automatically with the plugin install.
-
-## Step 7 — Activate + verify
-
-Tell the user, in numbered plain steps, how to switch on the new profile:
-
-1. Open **Agent Settings** (activity bar) → **Profiles**.
-2. Select **"<Name>'s Perspective"** and click **Activate**.
-3. Restart the chat (new conversation) so the persona + MCP load.
-
-Then give them a friendly first thing to try, e.g.:
-> Type: *"What can I do here?"* — and the `getting-started` skill will give you a tour.
-
-End by summarizing, in 3 bullets, exactly what you set up and where the backups are, so they
-feel in control. Remind them everything is reversible by switching profiles or deleting the
-profile JSON.
+Summarize in 3 bullets: what profile you created, where it is, and that everything is
+reversible (switch profiles or delete the file). Keep it warm and short.
