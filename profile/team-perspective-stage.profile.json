@@ -1,0 +1,26 @@
+{
+  "name": "team-perspective",
+  "description": "Stage-backed version of the team perspective profile. All sources point at a Snowflake stage, so users on this account can add it from Agent Settings without touching GitHub.",
+  "ownerTeam": "demo",
+  "version": "1.0",
+  "skillRepos": [
+    {
+      "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/skills/"
+    }
+  ],
+  "mcpServers": {
+    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/mcp.json"
+  },
+  "commandRepos": [],
+  "systemPromptRepo": {
+    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/AGENTS.md"
+  },
+  "plugins": [],
+  "subagents": [],
+  "hooks": {},
+  "envVars": {},
+  "settingsOverrides": {
+    "theme": "dark"
+  },
+  "localModified": false
+}

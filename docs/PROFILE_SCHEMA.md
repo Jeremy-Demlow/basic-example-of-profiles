@@ -1,12 +1,13 @@
-# Profile Schema (GitHub-sourced)
+# Profile Schema (GitHub + Stage)
 
 A **profile** is a single JSON file in `~/.snowflake/cortex/profiles/<Name>.json` that, when
 activated in Agent Settings → Profiles, switches on a whole "perspective": which skills, MCP
-servers, system prompt, and settings are active. Everything can be sourced from **GitHub** — no
-Snowflake stage required.
+servers, system prompt, and settings are active.
 
-> This page documents the GitHub source form, which the official docs don't yet cover. It was
-> verified against the Cortex Code Desktop app itself.
+Sources can be **GitHub** (public, no stage) or **Snowflake stage** (internal, role-governed).
+
+> This page documents both source forms. Neither is in the public docs at time of writing —
+> both were verified against the Cortex Code Desktop app itself (see [`DISCOVERY.md`](DISCOVERY.md)).
 
 ## Full shape
 
@@ -79,3 +80,69 @@ On activate, the app clones each `source` at its `ref` into a cache, appends the
 - applies `settingsOverrides`.
 
 Switching to a different profile (or deleting the file) reverses all of it.
+
+## Stage-sourced form
+
+The same profile shape, but with `snowflake_stage` instead of `source`:
+
+```jsonc
+{
+  "name": "team-perspective",
+  "description": "...",
+  "ownerTeam": "your-team",
+  "version": "1.0",
+
+  "skillRepos": [
+    { "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/skills/" }
+  ],
+
+  "mcpServers": {
+    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/mcp.json"
+  },
+
+  "systemPromptRepo": {
+    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/AGENTS.md"
+  },
+
+  // ... same remaining fields as GitHub form
+}
+```
+
+Stage paths must match `@DATABASE.SCHEMA.STAGE` or `@DATABASE.SCHEMA.STAGE/path`.
+
+## Profile Registry table
+
+When you `cortex profile publish`, the profile is stored in a registry table
+(`CORTEX_CODE.CONFIG.PROFILE_REGISTRY` by default) so others can discover it via
+`cortex profile list-remote` and fetch it with `cortex profile add`.
+
+### Schema (14 columns)
+
+```sql
+CREATE TABLE CORTEX_CODE.CONFIG.PROFILE_REGISTRY (
+  CONFIG_NAME        STRING NOT NULL,   -- slug: letters, numbers, hyphens, underscores only
+  DESCRIPTION        STRING,
+  OWNER_TEAM         STRING,
+  SKILL_REPOS        VARIANT,           -- JSON array of repo entries
+  MCP_SERVERS        VARIANT,           -- JSON repo entry or inline object
+  COMMAND_REPOS      VARIANT,           -- JSON array of repo entries
+  ENV_VARS           VARIANT,           -- JSON object
+  SETTINGS_OVERRIDES VARIANT,           -- JSON object
+  PERMISSIONS        VARIANT,           -- JSON object (nullable)
+  HOOKS              VARIANT,           -- JSON object (nullable)
+  PLUGINS            VARIANT,           -- JSON array (nullable)
+  SUBAGENTS          VARIANT,           -- JSON array (nullable)
+  SYSTEM_PROMPT_REPO VARIANT,           -- JSON repo entry (nullable)
+  VERSION            STRING DEFAULT '1.0',
+  ACTIVE             BOOLEAN DEFAULT TRUE
+);
+```
+
+### Important constraints
+
+- **`CONFIG_NAME` must be a slug** — starts with a letter, contains only `[A-Za-z0-9_-]`.
+  Spaces are not allowed (unlike local profile filenames). Use hyphens: `team-perspective`.
+- **ACTIVE** — only rows with `ACTIVE = TRUE` are returned by `list-remote` / `add`.
+  Use `cortex profile publish --deactivate` to hide a profile without deleting the row.
+
+See [`STAGE_SETUP.md`](STAGE_SETUP.md) for the full setup walkthrough.
