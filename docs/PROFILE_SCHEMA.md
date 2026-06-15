@@ -7,7 +7,7 @@ servers, system prompt, and settings are active.
 Sources can be **GitHub** (public, no stage) or **Snowflake stage** (internal, role-governed).
 
 > This page documents both source forms. Neither is in the public docs at time of writing —
-> both were verified against the Cortex Code Desktop app itself (see [`DISCOVERY.md`](DISCOVERY.md)).
+> both were verified against the Cortex Code Desktop app itself.
 
 ## Full shape
 

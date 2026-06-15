@@ -1,110 +1,147 @@
-# Basic Example of Profiles
+# Cortex Code Desktop — Profile Starter Kit
 
-A complete, **fork-and-go** example of a Cortex Code Desktop **perspective** — built so a team
-can clone it, change a few placeholders, and onboard non-technical partners in minutes.
+**Set up your entire team's Cortex Code Desktop experience in one step.**
 
-This repo showcases **both distribution channels** for profiles:
-- **GitHub-sourced** — public, no Snowflake needed, works for anyone with internet.
-- **Snowflake stage-sourced** — internal, role-governed, discoverable via `cortex profile list-remote`.
+Cortex Code Desktop is Snowflake's agentic IDE. A **profile** is how you configure what the
+assistant knows, how it talks, and what tools it has — for a whole team at once. This repo is
+a working, forkable template that gives you a complete profile ready to distribute.
 
-Both are verified working end-to-end and documented here.
+## What a profile does
 
-## Plugin vs Profile — what's what
+When someone activates a profile, Cortex Code Desktop automatically:
 
-This repo is **both**, because they do different jobs:
+- Loads **skills** (reusable workflows the assistant can run — like slash commands)
+- Connects **MCP servers** (external tools the assistant can use — knowledge bases, APIs, etc.)
+- Applies a **system prompt** (the assistant's personality, tone, and behavior rules)
+- Sets **defaults** (theme, Snowflake connection, permission mode)
 
-- **Plugin** = the *package* of capabilities (the `skills/`, `agents/`, `mcp.json` here). It's
-  how you distribute reusable content. Defined by `.cortex-plugin/plugin.json`.
-- **Profile** = the *active identity* a user switches on — which skills, MCP, system prompt, and
-  settings are live.
+One profile replaces dozens of manual configuration steps. Your team members activate it once
+and they're ready to work.
 
-The profile is what a partner "loads." It *references* this repo's content. See
-[`docs/PROFILE_SCHEMA.md`](docs/PROFILE_SCHEMA.md) for the exact schema (GitHub + stage forms).
-
-## What's in here
+## What's in this repo
 
 ```
-basic-example-of-profiles/
-  profile/
-    team-perspective.profile.json         # GitHub-sourced profile (the default)
-    team-perspective-stage.profile.json   # Snowflake stage-sourced profile (same content, different transport)
-  AGENTS.md                               # system prompt / persona
-  mcp.json                                # MCP servers (placeholders, ${input:} secrets)
-  skills/
-    setup-my-perspective/SKILL.md         # one-question install skill (vanilla fast path)
-    getting-started/SKILL.md              # friendly, no-jargon tour
-  agents/data-helper.md                   # example subagent
-  .cortex-plugin/plugin.json              # installable as one plugin bundle
-  examples/hooks.example.json             # optional event-hook example (not auto-loaded)
-  docs/
-    PROFILE_SCHEMA.md                     # GitHub + stage profile schema (verified from app source)
-    CUSTOMIZE.md                          # fork-and-fill guide
-    STAGE_SETUP.md                        # full stage + registry setup walkthrough
-    DISCOVERY.md                          # how we reverse-engineered and verified all of this
+profile/
+  team-perspective.profile.json           ← GitHub-sourced profile
+  team-perspective-stage.profile.json     ← Snowflake stage-sourced profile (same content)
+
+AGENTS.md                                 ← System prompt (persona / behavior rules)
+mcp.json                                  ← MCP server templates (secrets never committed)
+
+skills/
+  setup-my-perspective/SKILL.md           ← Guided setup: asks one question, installs everything
+  getting-started/SKILL.md                ← Friendly tour for first-time users
+
+agents/data-helper.md                     ← Example subagent (read-only data helper)
+.cortex-plugin/plugin.json                ← Plugin manifest (makes this installable as one bundle)
+examples/hooks.example.json               ← Optional automation hooks (not active by default)
+
+docs/
+  PROFILE_SCHEMA.md                       ← Full profile JSON schema reference
+  STAGE_SETUP.md                          ← How to publish to Snowflake (internal distribution)
+  CUSTOMIZE.md                            ← Fork-and-fill guide for your team
 ```
 
-## Two channels, same result
+## Quick start
 
-| | GitHub-sourced | Stage-sourced |
-|---|---|---|
-| **Profile file** | `profile/team-perspective.profile.json` | `profile/team-perspective-stage.profile.json` |
-| **Source key** | `"source": "owner/repo/path"` | `"snowflake_stage": "@DB.SCHEMA.STAGE/path"` |
-| **Best for** | Public/external, open-source, no Snowflake needed | Internal teams, enterprise, role-restricted |
-| **Access governed by** | Git credentials (public = none) | Snowflake roles + grants |
-| **Discovery** | Partners paste the repo URL in Agent Settings | `cortex profile list-remote` shows it |
-| **Setup guide** | Below (Load paths A & B) | [`docs/STAGE_SETUP.md`](docs/STAGE_SETUP.md) |
+### Option A — GitHub (public teams, no Snowflake stage needed)
 
-## Load paths (GitHub channel)
+Your team members do this in Cortex Code Desktop:
 
-**A. One-click profile (cleanest).** Copy `profile/team-perspective.profile.json` into
-`~/.snowflake/cortex/profiles/`, then **Agent Settings → Profiles → Activate**. Activation pulls
-skills + MCP + persona straight from GitHub.
+1. **Agent Settings → Skills → + (GitHub Skills)** → paste:
+   ```
+   YOUR-ORG/YOUR-FORK-OF-THIS-REPO
+   ```
+2. In a chat, type: **`/setup-my-perspective`**
+3. Answer one question (their name), then follow the activation prompt.
 
-**B. Guided setup skill (friendliest for beginners).** In Cortex Code Desktop:
+Done. Skills, MCP, persona, and settings are all live.
 
-1. **Agent Settings → Skills → +** (GitHub Skills) → paste `Jeremy-Demlow/basic-example-of-profiles`
-   *(or use Plugins → Add from GitHub to get the whole bundle).*
-2. Open a chat and type **`/setup-my-perspective`**.
-3. Confirm your name (one question) → the skill installs a personalized profile.
-4. **Agent Settings → Profiles → Activate** → start a new chat.
+### Option B — Snowflake stage (internal teams, role-restricted)
 
-Then try **"What can I do here?"** for a guided tour.
-
-## Load paths (Stage channel)
-
-**C. Stage-backed (internal teams).** After setup ([`docs/STAGE_SETUP.md`](docs/STAGE_SETUP.md)):
+You publish the profile to your Snowflake account once (see [`docs/STAGE_SETUP.md`](docs/STAGE_SETUP.md)),
+then team members run:
 
 ```bash
-# CLI
-cortex profile add team-perspective -c myconnection
-
-# Or in the Desktop UI:
-# Agent Settings → Profiles → remote list → Add → Activate
+cortex profile add team-perspective -c <their-connection>
 ```
 
-## Make it yours
+Or in the desktop UI: **Agent Settings → Profiles** → find it in the remote list → **Add → Activate**.
 
-Fork and replace placeholders — full instructions in [`docs/CUSTOMIZE.md`](docs/CUSTOMIZE.md).
+## Two distribution channels
 
-## How we figured this out
+| | GitHub | Snowflake Stage |
+|---|---|---|
+| Best for | Public / external / open-source teams | Internal / enterprise / restricted access |
+| Access control | Git permissions (public = anyone) | Snowflake roles and grants |
+| How users find it | You give them the repo URL | `cortex profile list-remote` shows it |
+| Profile file | `profile/team-perspective.profile.json` | `profile/team-perspective-stage.profile.json` |
+| Update flow | Push to GitHub; users sync in Agent Settings | Re-PUT files to stage; users run `cortex profile sync` |
 
-The profile schema, registry table DDL, GitHub source format, and hook events are **not in the
-public Snowflake documentation**. We reverse-engineered them from the CoCo Desktop app's own
-compiled source code (`@coco-sdk/core`), tested with the app's real functions, and verified
-end-to-end in both the CLI and desktop UI.
+Both channels deliver the same result: skills + MCP + persona + settings, activated in one click.
 
-The full story: [`docs/DISCOVERY.md`](docs/DISCOVERY.md).
+## Restricting access by role
 
-## Safe-by-default posture
+Profiles published to a Snowflake stage are governed by standard Snowflake grants. To make a
+profile visible **only to certain roles**:
 
-This example assumes a new, non-technical user, so it relies on the default **ask-before-acting**
-posture (Default Approvals): the assistant prompts before each tool call, edit, or SQL run. For
-unfamiliar tasks, use **Plan Mode** (read-only — shows the plan before anything happens). Don't
-enable Bypass Approvals for newcomers.
+```sql
+-- Grant access to a specific role
+GRANT USAGE ON DATABASE CORTEX_CODE TO ROLE DATA_ANALYSTS;
+GRANT USAGE ON SCHEMA CORTEX_CODE.CONFIG TO ROLE DATA_ANALYSTS;
+GRANT SELECT ON TABLE CORTEX_CODE.CONFIG.PROFILE_REGISTRY TO ROLE DATA_ANALYSTS;
+GRANT READ ON STAGE CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE TO ROLE DATA_ANALYSTS;
 
-## Security notes
+-- Revoke from PUBLIC to keep it hidden from everyone else
+REVOKE ALL ON TABLE CORTEX_CODE.CONFIG.PROFILE_REGISTRY FROM ROLE PUBLIC;
+REVOKE ALL ON STAGE CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE FROM ROLE PUBLIC;
+```
 
-- Plugins and profiles are **not** cryptographically signed. Review the manifest, skills, MCP
-  servers, and hooks before installing — same as running any code from an author you trust.
-- The `mcp.json` servers are **placeholders** and won't connect until you fill in real values.
-  Secrets use `${input:...}` prompts and are stored encrypted by the OS, never committed here.
+Users without these grants won't see the profile in `cortex profile list-remote` and can't
+fetch it. You can create **multiple profiles for different roles** — each with its own stage,
+own skills, and own persona — and gate them independently.
+
+## How to make this yours
+
+1. **Fork this repo** into your org.
+2. **Edit these files:**
+
+   | File | What to change |
+   |---|---|
+   | `AGENTS.md` | Rewrite the persona for your team's voice and use case |
+   | `mcp.json` | Replace placeholder servers with your real MCP endpoints |
+   | `profile/team-perspective.profile.json` | Change `source` fields from `Jeremy-Demlow/basic-example-of-profiles` to your fork's `owner/repo` |
+   | `skills/` | Add your own slash-command skills |
+
+3. **Tell your team** to add the repo (Option A) or publish to a stage (Option B).
+
+Full fork guide: [`docs/CUSTOMIZE.md`](docs/CUSTOMIZE.md)
+
+## Profile schema reference
+
+The profile JSON format is documented in [`docs/PROFILE_SCHEMA.md`](docs/PROFILE_SCHEMA.md),
+including:
+- The GitHub source form (`"source": "owner/repo/path"`)
+- The Snowflake stage form (`"snowflake_stage": "@DB.SCHEMA.STAGE/path"`)
+- The registry table schema (for publishing)
+- All accepted source string formats
+
+## Key concepts
+
+- **Profile** = the activatable configuration (binds skills + MCP + persona + settings).
+- **Plugin** = a distributable package of capabilities (this repo is structured as one).
+- **Skill** = a markdown file (`SKILL.md`) that teaches the assistant a specific workflow.
+- **MCP server** = an external tool connection (knowledge search, APIs, databases).
+- **System prompt** = `AGENTS.md` — controls *how* the assistant communicates (tone, safety rules).
+
+A profile *references* plugins, skills, and MCP servers. It doesn't contain them inline — it
+points at where they live (GitHub or a stage) and the app pulls them on activation.
+
+## Safety
+
+- The assistant defaults to **ask-before-acting** mode. Nothing runs without explicit approval.
+- MCP secrets use `${input:...}` prompts — entered once, stored encrypted by the OS, never in
+  this repo.
+- Profiles are not cryptographically signed. Review what you're installing before activating,
+  the same way you'd review any code from an author you choose to trust.
+- Everything is reversible: switch profiles or delete the profile file to undo all changes.
