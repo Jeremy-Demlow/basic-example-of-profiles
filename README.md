@@ -46,12 +46,17 @@ docs/
 
 ### Option A — GitHub (public teams, no Snowflake stage needed)
 
+> **Just trying it out?** Use `Jeremy-Demlow/basic-example-of-profiles` directly in the steps
+> below — no fork needed. Fork only when you're ready to customize (see "How to make this yours").
+
 Your team members do this in Cortex Code Desktop:
 
 1. **Agent Settings → Skills → + (GitHub Skills)** → paste:
    ```
    YOUR-ORG/YOUR-FORK-OF-THIS-REPO
    ```
+   *(Adding via **Skills** registers just the skills. To also pull the subagent and plugin
+   metadata as one bundle, use **Agent Settings → Plugins → Add from GitHub** with the same path.)*
 2. In a chat, type: **`/setup-profile`**
 3. Answer one question (their name), then follow the activation prompt.
 

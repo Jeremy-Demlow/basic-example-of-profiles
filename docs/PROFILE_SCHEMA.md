@@ -145,4 +145,8 @@ CREATE TABLE CORTEX_CODE.CONFIG.PROFILE_REGISTRY (
 - **ACTIVE** — only rows with `ACTIVE = TRUE` are returned by `list-remote` / `add`.
   Use `cortex profile publish --deactivate` to hide a profile without deleting the row.
 
+> **Versioning note:** the plugin's `version` (in `.cortex-plugin/plugin.json`) and a profile's
+> `version` field are **independent** — they describe different things (the plugin package vs. the
+> profile definition) and do not need to match.
+
 See [`STAGE_SETUP.md`](STAGE_SETUP.md) for the full setup walkthrough.

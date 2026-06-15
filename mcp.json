@@ -1,12 +1,13 @@
 {
   "//": "================================================================",
-  "//1": "MCP SERVERS (placeholders). The Team Profile points its mcpServers",
-  "//2": "field at THIS file on GitHub, so activating the profile loads these.",
-  "//3": "Replace the <REPLACE...> values with your team's real servers, or",
+  "//1": "MCP SERVERS (placeholders). The profile's mcpServers field points at",
+  "//2": "THIS file on GitHub, so activating the profile loads these servers.",
+  "//3": "Replace the REPLACE-WITH-* values with your team's real servers, or",
   "//4": "delete servers you don't use. Secrets use ${input:...} so they are",
   "//5": "prompted once and stored encrypted by the OS — never committed here.",
   "//6": "These are EXAMPLES and will not connect until you fill them in.",
-  "//7": "================================================================",
+  "//7": "Note: //-prefixed keys are comments; the MCP loader ignores them.",
+  "//8": "================================================================",
 
   "mcpServers": {
     "team_knowledge_search": {

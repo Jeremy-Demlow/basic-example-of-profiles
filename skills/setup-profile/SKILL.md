@@ -49,7 +49,7 @@ That's it. If they later want their own fork or a specific connection, run the c
 ## Custom path (only if the user wants to fork/customize)
 
 Use the numbered steps below when the user wants their own repo fork, a specific team name,
-or a chosen connection.
+or a chosen connection. (The Golden rules and "Where things live" below apply to both paths.)
 
 ## Golden rules
 
@@ -64,9 +64,12 @@ or a chosen connection.
 - Profiles: `~/.snowflake/cortex/profiles/<Name>.json`
 - This repo's profile template: `profile/team-perspective.profile.json`
 - Once the repo is installed, it's cloned under `~/.snowflake/cortex/plugins/`
-  (plugin install) or `~/.snowflake/cortex/remote_cache/` (skill-from-GitHub install).
+  (plugin install) or `~/.snowflake/cortex/remote-cache/` (skill-from-GitHub install).
 
 ## Step 1 — Find the source repo
+
+> Steps 1-6 below are the **custom path**. For the default experience, use the
+> Vanilla fast path above instead.
 
 Ask the user (question tool, one short batch):
 
@@ -80,7 +83,7 @@ Ask the user (question tool, one short batch):
 ## Step 2 — Load the profile template
 
 Locate `profile/team-perspective.profile.json` from the installed repo (search
-`plugins/` and `remote_cache/`). If you can't find it locally, fetch it from the repo's
+`plugins/` and `remote-cache/`). If you can't find it locally, fetch it from the repo's
 raw GitHub URL for the chosen `owner/repo@ref`.
 
 ## Step 3 — Personalize it

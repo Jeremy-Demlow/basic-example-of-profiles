@@ -1,13 +1,15 @@
 {
   "//": "==================================================================",
-  "//1": "THE PROFILE — this single file binds skills + MCP + system prompt +",
-  "//2": "settings into one activatable 'perspective', ALL sourced from GitHub.",
-  "//3": "No Snowflake stage required. Fork this repo, change every <YOUR-GH-...>",
-  "//4": "placeholder to your fork (owner/repo), then either copy this file to",
-  "//5": "~/.snowflake/cortex/profiles/ or run /setup-profile.",
-  "//6": "Source ref schema verified from the CoCo app: a repo entry is",
-  "//7": "{ \"source\": \"owner/repo/subpath\", \"ref\": \"main\" }. See docs/PROFILE_SCHEMA.md.",
-  "//8": "==================================================================",
+  "//1": "THE PROFILE (GitHub-sourced) — this single file binds skills + MCP +",
+  "//2": "system prompt + settings into one activatable 'perspective', ALL from",
+  "//3": "GitHub. No Snowflake stage required.",
+  "//4": "TO CUSTOMIZE: change 'Jeremy-Demlow/basic-example-of-profiles' in every",
+  "//5": "'source' to your fork (owner/repo), and replace the REPLACE_WITH_* values.",
+  "//6": "Then copy this file to ~/.snowflake/cortex/profiles/ or run /setup-profile.",
+  "//7": "Repo entry shape: { \"source\": \"owner/repo/subpath\", \"ref\": \"main\" }.",
+  "//8": "Full schema + accepted source formats: docs/PROFILE_SCHEMA.md.",
+  "//9": "Note: these //-prefixed keys are comments; the app ignores them on load.",
+  "//10": "==================================================================",
 
   "name": "Team Perspective",
   "description": "Starter team perspective: friendly persona, starter skills, and MCP — all from GitHub. Fork and customize.",
@@ -16,12 +18,14 @@
 
   "skillRepos": [
     {
+      "//": "Folder of skills. The app clones the repo and registers every SKILL.md found here.",
       "source": "Jeremy-Demlow/basic-example-of-profiles/skills",
       "ref": "main"
     }
   ],
 
   "mcpServers": {
+    "//": "Points at the mcp.json file in this repo. Activation loads those servers.",
     "source": "Jeremy-Demlow/basic-example-of-profiles/mcp.json",
     "ref": "main"
   },
@@ -29,6 +33,7 @@
   "commandRepos": [],
 
   "systemPromptRepo": {
+    "//": "The persona / behavior rules. Applied as the active system prompt on activation.",
     "source": "Jeremy-Demlow/basic-example-of-profiles/AGENTS.md",
     "ref": "main"
   },
@@ -40,6 +45,7 @@
   "envVars": {},
 
   "settingsOverrides": {
+    "//": "Applied to settings on activation. Remove the connection keys if you have none.",
     "theme": "dark",
     "sqlConnectionName": "REPLACE_WITH_YOUR_CONNECTION",
     "cortexAgentConnectionName": "REPLACE_WITH_YOUR_CONNECTION"

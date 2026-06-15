@@ -1,26 +1,43 @@
 {
+  "//": "==================================================================",
+  "//1": "THE PROFILE (Snowflake stage-sourced) — same content as the GitHub",
+  "//2": "profile, but sources point at a Snowflake stage instead of GitHub.",
+  "//3": "Use this for internal teams where access is governed by Snowflake roles.",
+  "//4": "TO CUSTOMIZE: replace @YOUR_DB.YOUR_SCHEMA.YOUR_STAGE with your stage,",
+  "//5": "and the REPLACE_WITH_* values. Then publish with: cortex profile publish.",
+  "//6": "Full setup walkthrough: docs/STAGE_SETUP.md.",
+  "//7": "Note: //-prefixed keys are comments; the app ignores them on load.",
+  "//8": "==================================================================",
+
   "name": "team-perspective",
   "description": "Stage-backed version of the team perspective profile. All sources point at a Snowflake stage, so users on this account can add it from Agent Settings without touching GitHub.",
-  "ownerTeam": "demo",
+  "ownerTeam": "REPLACE_WITH_YOUR_TEAM",
   "version": "1.0",
+
   "skillRepos": [
     {
-      "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/skills/"
+      "snowflake_stage": "@YOUR_DB.YOUR_SCHEMA.YOUR_STAGE/skills/"
     }
   ],
+
   "mcpServers": {
-    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/mcp.json"
+    "snowflake_stage": "@YOUR_DB.YOUR_SCHEMA.YOUR_STAGE/mcp.json"
   },
+
   "commandRepos": [],
+
   "systemPromptRepo": {
-    "snowflake_stage": "@CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/AGENTS.md"
+    "snowflake_stage": "@YOUR_DB.YOUR_SCHEMA.YOUR_STAGE/AGENTS.md"
   },
+
   "plugins": [],
   "subagents": [],
   "hooks": {},
   "envVars": {},
+
   "settingsOverrides": {
     "theme": "dark"
   },
+
   "localModified": false
 }

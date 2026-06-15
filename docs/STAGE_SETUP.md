@@ -13,6 +13,13 @@ Snowflake profiles like `se_manager`.
 
 Both produce the same result: an activatable profile that pulls skills, MCP, and a system prompt.
 
+> **Replace these values throughout this guide** with your own:
+> - `myconnection` → your Snowflake connection name (from `cortex connection list` / your `connections.toml`)
+> - `CORTEX_CODE.CONFIG` → the database.schema you want to host the profile in
+> - `STG_PROFILE_TEAM_PERSPECTIVE` → your chosen stage name
+>
+> The names below are just a worked example.
+
 ## Step-by-step setup
 
 ### 1. Create the database + schema + stage
