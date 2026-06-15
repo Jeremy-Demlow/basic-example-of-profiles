@@ -1,14 +1,14 @@
 ---
-name: setup-my-perspective
+name: setup-profile
 description: >-
   One-step onboarding for a new Cortex Code Desktop user. Installs and personalizes
-  a GitHub-sourced "perspective" profile (skills + MCP + system prompt + settings),
-  then guides activation. No terminal, no stage, everything from GitHub.
-  Triggers: setup my perspective, set me up, onboard me, get me started,
-  configure my profile, build my perspective, first time setup, new user setup.
+  a GitHub-sourced profile (skills + MCP + system prompt + settings), then guides
+  activation. No terminal, no stage, everything from GitHub.
+  Triggers: setup profile, set me up, onboard me, get me started, configure my
+  profile, build my profile, first time setup, new user setup, install profile.
 ---
 
-# Setup My Perspective
+# Setup Profile
 
 You are onboarding a **non-technical partner** on Cortex Code Desktop. They may know
 Claude / Cowork but never used VSCode. Be warm, plain-spoken, jargon-free. Do the work

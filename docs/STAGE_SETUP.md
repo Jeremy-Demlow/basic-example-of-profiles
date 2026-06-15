@@ -42,8 +42,8 @@ PUT 'file:///path/to/basic-example-of-profiles/mcp.json'
   AUTO_COMPRESS=FALSE OVERWRITE=TRUE;
 
 -- Skills (one PUT per skill's SKILL.md)
-PUT 'file:///path/to/basic-example-of-profiles/skills/setup-my-perspective/SKILL.md'
-  @CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/skills/setup-my-perspective/
+PUT 'file:///path/to/basic-example-of-profiles/skills/setup-profile/SKILL.md'
+  @CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE/skills/setup-profile/
   AUTO_COMPRESS=FALSE OVERWRITE=TRUE;
 
 PUT 'file:///path/to/basic-example-of-profiles/skills/getting-started/SKILL.md'
@@ -54,7 +54,7 @@ PUT 'file:///path/to/basic-example-of-profiles/skills/getting-started/SKILL.md'
 Verify:
 ```sql
 LIST @CORTEX_CODE.CONFIG.STG_PROFILE_TEAM_PERSPECTIVE;
--- Should show: AGENTS.md, mcp.json, skills/getting-started/SKILL.md, skills/setup-my-perspective/SKILL.md
+-- Should show: AGENTS.md, mcp.json, skills/getting-started/SKILL.md, skills/setup-profile/SKILL.md
 ```
 
 ### 3. Create the profile registry table

@@ -29,7 +29,7 @@ AGENTS.md                                 ← System prompt (persona / behavior 
 mcp.json                                  ← MCP server templates (secrets never committed)
 
 skills/
-  setup-my-perspective/SKILL.md           ← Guided setup: asks one question, installs everything
+  setup-profile/SKILL.md           ← Guided setup: asks one question, installs everything
   getting-started/SKILL.md                ← Friendly tour for first-time users
 
 agents/data-helper.md                     ← Example subagent (read-only data helper)
@@ -52,7 +52,7 @@ Your team members do this in Cortex Code Desktop:
    ```
    YOUR-ORG/YOUR-FORK-OF-THIS-REPO
    ```
-2. In a chat, type: **`/setup-my-perspective`**
+2. In a chat, type: **`/setup-profile`**
 3. Answer one question (their name), then follow the activation prompt.
 
 Done. Skills, MCP, persona, and settings are all live.

@@ -47,7 +47,7 @@ Then do whatever they pick, narrating each step simply.
 ## 5. Where to go next
 
 Close by pointing them at:
-- Re-run **/setup-my-perspective** anytime to adjust their setup.
+- Re-run **/setup-profile** anytime to adjust their setup.
 - **Agent Settings → Skills** to see everything the assistant knows how to do.
 
 Keep the whole thing warm and under ~250 words of assistant output.

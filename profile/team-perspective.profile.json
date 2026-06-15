@@ -4,7 +4,7 @@
   "//2": "settings into one activatable 'perspective', ALL sourced from GitHub.",
   "//3": "No Snowflake stage required. Fork this repo, change every <YOUR-GH-...>",
   "//4": "placeholder to your fork (owner/repo), then either copy this file to",
-  "//5": "~/.snowflake/cortex/profiles/ or run /setup-my-perspective.",
+  "//5": "~/.snowflake/cortex/profiles/ or run /setup-profile.",
   "//6": "Source ref schema verified from the CoCo app: a repo entry is",
   "//7": "{ \"source\": \"owner/repo/subpath\", \"ref\": \"main\" }. See docs/PROFILE_SCHEMA.md.",
   "//8": "==================================================================",

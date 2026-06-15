@@ -42,7 +42,7 @@ pulls skills + MCP + persona automatically.
 
 **B. Guided setup skill (friendliest for beginners).** A teammate adds your fork from
 Agent Settings → Skills → Add from GitHub (`your-org/your-team-perspective`), then runs
-`/setup-my-perspective`, which installs and personalizes the profile for them.
+`/setup-profile`, which installs and personalizes the profile for them.
 
 ## 5. Verify
 
