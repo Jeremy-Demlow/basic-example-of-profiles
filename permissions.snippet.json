@@ -1,0 +1,9 @@
+{
+  "_comment": "INFORMATIONAL ONLY. ~/.snowflake/cortex/permissions.json is a runtime grant cache, not a policy file, so the setup skill does NOT write to it. This file documents the recommended safe posture for a new non-technical user, which the skill verifies and explains.",
+  "recommended_posture": {
+    "permission_mode": "Default Approvals",
+    "why": "The assistant asks before each tool call, edit, or SQL run. Nothing happens without an explicit Approve.",
+    "plan_mode": "Encourage Plan Mode for unfamiliar tasks — it is read-only and shows the plan before anything runs.",
+    "do_not": "Do not enable Bypass Approvals for a new non-technical user; reserve it for isolated, trusted environments."
+  }
+}

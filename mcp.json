@@ -1,0 +1,13 @@
+{
+  "_comment": "Templates for MCP servers the setup-my-perspective skill can enable. Secrets are NEVER hardcoded; they use ${input:...} prompts so the value is entered once and stored encrypted, not in this file. The skill copies only the servers the user selects into ~/.snowflake/cortex/mcp.json.",
+  "mcpServers": {
+    "glean_default": {
+      "_label": "Glean knowledge search",
+      "_why": "Search internal company knowledge and documents from chat.",
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://YOUR-COMPANY.glean.com/mcp/default"]
+    }
+  },
+  "inputs": []
+}

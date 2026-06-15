@@ -1,0 +1,6 @@
+{
+  "_comment": "Settings the setup skill merges into ~/.snowflake/cortex/settings.json. The skill fills in sqlConnectionName / cortexAgentConnectionName with the connection the user picks. Safe to merge; only adds these keys.",
+  "theme": "dark",
+  "sqlConnectionName": "REPLACE_WITH_USER_CONNECTION",
+  "cortexAgentConnectionName": "REPLACE_WITH_USER_CONNECTION"
+}

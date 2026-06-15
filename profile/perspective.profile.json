@@ -1,0 +1,19 @@
+{
+  "_comment": "Template profile. The setup-my-perspective skill generates a personalized copy of this at ~/.snowflake/cortex/profiles/<Name>'s Perspective.json. You can also copy this manually, fill in the values, and drop it in that folder, then Activate it in Agent Settings > Profiles.",
+  "name": "Starter Perspective",
+  "description": "A starter perspective for a non-technical partner.",
+  "ownerTeam": "",
+  "version": "1.0",
+  "skillRepos": [],
+  "mcpServers": {},
+  "commandRepos": [],
+  "systemPromptRepo": null,
+  "plugins": [],
+  "subagents": [],
+  "hooks": {},
+  "envVars": {},
+  "settingsOverrides": {
+    "theme": "dark"
+  },
+  "localModified": true
+}

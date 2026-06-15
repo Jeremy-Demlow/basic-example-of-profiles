@@ -1,0 +1,8 @@
+{
+  "name": "basic-example-of-profiles",
+  "version": "1.0.0",
+  "description": "A starter 'perspective' for non-technical partners: one /setup-my-perspective skill that configures a Cortex Code profile, MCP servers, system prompt, settings, and permissions in a few clicks.",
+  "skills": ["skills"],
+  "hooks": {},
+  "mcpServers": {}
+}
