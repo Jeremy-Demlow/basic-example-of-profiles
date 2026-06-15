@@ -19,6 +19,38 @@ The deliverable is a **profile** — a single JSON file under
 system prompt directly from a GitHub repo. You install + personalize that profile; the
 app does the rest on activation.
 
+## Pick a path
+
+Default to the **Vanilla fast path** unless the user clearly wants to customize (their own
+fork, custom team name, specific connection). Don't make a newcomer answer a wall of questions.
+
+---
+
+## Vanilla fast path (default — minimize friction)
+
+Goal: a working profile installed and ready to activate after **one** simple question.
+
+1. **Ask only their first name** (one question). Everything else is defaulted:
+   - Source repo: `Jeremy-Demlow/basic-example-of-profiles` at `main` (leave `source` fields as-is).
+   - Connection: detect automatically — run `snow connection list`; if exactly one exists, use it;
+     if several, use the one already in their settings if present, else omit connection keys; if
+     none, omit them. Do **not** interrogate them about connections.
+2. **Build the profile** from `profile/team-perspective.profile.json`: set `name` to
+   `"<Name>'s Perspective"`, strip the `//*` comment keys, set the detected connection (or remove
+   those keys), leave all `source` fields pointing at the default repo.
+3. **Install it** — write to `~/.snowflake/cortex/profiles/<Name>'s Perspective.json` (back up
+   first if that filename already exists). Briefly confirm before writing.
+4. **Hand off to activation** — jump straight to the "Activate + verify" steps below.
+
+That's it. If they later want their own fork or a specific connection, run the custom path.
+
+---
+
+## Custom path (only if the user wants to fork/customize)
+
+Use the numbered steps below when the user wants their own repo fork, a specific team name,
+or a chosen connection.
+
 ## Golden rules
 
 1. **Back up before writing.** If a profile file already exists, copy it to
